@@ -1,8 +1,8 @@
-# Python Threading Tutorial 🧵
+# Python Concurrency Tutorial 
 
-A comprehensive Jupyter notebook demonstrating Python threading concepts with practical examples, from basic thread creation to real-world applications.
 
-## 📚 What's Covered
+
+## Threading-
 
 ### 1. Basic Threading Concepts
 - **Single Thread Creation**: Creating and starting individual threads
@@ -26,7 +26,7 @@ A comprehensive Jupyter notebook demonstrating Python threading concepts with pr
 - **Network I/O**: Demonstrating threading benefits for I/O-bound tasks
 - **Error Handling**: Proper exception handling in threaded code
 
-## 🚀 Key Examples
+##  Key Examples
 
 ### Basic Threading
 ```python
@@ -64,7 +64,7 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
 | Threaded | ~1.5 seconds |
 | **Speed Up** | **~10x faster!** |
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Thread.ipynb
@@ -96,7 +96,7 @@ pip install requests  # For image download examples
 ### Python Version
 - Python 3.7+ (tested with Python 3.10.13)
 
-## 🎯 Key Learning Outcomes
+##  Key Learning Outcomes
 
 After working through this notebook, you'll understand:
 
@@ -106,37 +106,6 @@ After working through this notebook, you'll understand:
 4. **Performance benefits**: Real timing comparisons showing 3-10x speed improvements
 5. **Best practices**: Context managers, error handling, and resource cleanup
 
-## 🔧 Common Issues & Solutions
-
-### SSL Certificate Errors (macOS)
-If you encounter SSL certificate verification errors:
-
-```bash
-# Check certificate path
-python -c "import certifi; print(certifi.where())"
-
-# Set environment variables
-export SSL_CERT_FILE=$(python -c "import certifi; print(certifi.where())")
-export REQUESTS_CA_BUNDLE=$(python -c "import certifi; print(certifi.where())")
-```
-
-Or use `verify=False` in requests (for learning purposes only):
-```python
-response = requests.get(url, verify=False)
-```
-
-### Variable Name Conflicts
-Watch out for this common bug:
-```python
-# ❌ Wrong - creates new list each iteration
-for _ in range(10):
-    result = [ex.submit(wait, 1)]
-
-# ✅ Correct - append to existing list
-result = []
-for _ in range(10):
-    result.append(ex.submit(wait, 1))
-```
 
 ## 📊 Performance Highlights
 
@@ -153,7 +122,7 @@ Sequential: 10.0 seconds  ██████████████████
 Threaded:    1.0 seconds  ██
 ```
 
-## 🎓 Advanced Concepts Covered
+##  Advanced Concepts Covered
 
 - **Context Managers**: Using `with` statements for resource management
 - **Future Objects**: Understanding asynchronous result handling
@@ -161,7 +130,7 @@ Threaded:    1.0 seconds  ██
 - **Resource Cleanup**: Automatic thread pool shutdown
 - **Performance Measurement**: Using `time.perf_counter()` for accurate timing
 
-## 🌟 Best Practices Demonstrated
+##  Best Practices Demonstrated
 
 1. **Use ThreadPoolExecutor** over manual thread management
 2. **Context managers** (`with` statements) for automatic cleanup
@@ -169,24 +138,11 @@ Threaded:    1.0 seconds  ██
 4. **Performance measurement** for quantifying improvements
 5. **Real-world examples** over toy problems
 
-## 🚀 Next Steps
 
-After mastering these threading concepts:
-
-1. **Explore asyncio**: For even better I/O concurrency
-2. **Learn multiprocessing**: For CPU-bound tasks
-3. **Study concurrent.futures**: More advanced patterns
-4. **Practice with real projects**: Apply to your own I/O-bound tasks
-
-## 📝 Notes
+##  Notes
 
 - Threading is perfect for **I/O-bound tasks** (network requests, file operations)
 - **Not ideal for CPU-bound tasks** due to Python's Global Interpreter Lock (GIL)
 - Always use **context managers** (`with` statements) for resource management
 - **ThreadPoolExecutor** is the modern, recommended approach over manual threading
 
----
-
-**Happy Threading! 🧵✨**
-
-*This tutorial demonstrates practical threading patterns you'll actually use in real Python projects.*
