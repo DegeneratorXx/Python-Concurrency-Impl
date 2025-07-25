@@ -20,3 +20,6 @@ async def main():
                          updateResource())
 
 asyncio.run(main())
+
+
+#no 2 coroutines are allowed to enter the program until one finishes !!

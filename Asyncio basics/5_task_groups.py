@@ -23,6 +23,10 @@ async def main():
         print(f"recieved results: {res}") 
 
 
+# TaskGroup advantages-
+#   built in exception handler
+#   stops the process in case any coroutine fails
+
 start=time.perf_counter()
 asyncio.run(main())
 total = time.perf_counter()-start

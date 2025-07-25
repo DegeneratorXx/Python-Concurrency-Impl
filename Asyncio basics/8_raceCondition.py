@@ -27,3 +27,24 @@ async def main():
     )
 
 asyncio.run(main())
+
+
+# With Lock: You'll see clean sequential updates: 0 → 1 → 2 → 3 → 4.
+
+# Without Lock: You might see incorrect updates like:
+
+
+#sample o/p:resource before updation: 0
+
+# resource before updation: 0
+
+# resource before updation: 0
+
+# resource before updation: 0
+# after updation: 1
+
+# after updation: 2
+
+# after updation: 3
+
+# after updation: 4
