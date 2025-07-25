@@ -2,7 +2,7 @@
 
 
 
-## Threading-
+## Threading
 
 ### 1. Basic Threading Concepts
 - **Single Thread Creation**: Creating and starting individual threads
@@ -26,7 +26,7 @@
 - **Network I/O**: Demonstrating threading benefits for I/O-bound tasks
 - **Error Handling**: Proper exception handling in threaded code
 
-##  Key Examples
+## Key Examples
 
 ### Basic Threading
 ```python
@@ -145,4 +145,218 @@ Threaded:    1.0 seconds  ██
 - **Not ideal for CPU-bound tasks** due to Python's Global Interpreter Lock (GIL)
 - Always use **context managers** (`with` statements) for resource management
 - **ThreadPoolExecutor** is the modern, recommended approach over manual threading
+
+## Asyncio
+
+### 1. Basic Asyncio Concepts
+- **Async Functions**: Defining functions with `async def`
+- **Await Keyword**: Waiting for asynchronous operations
+- **Event Loop**: Understanding the asyncio event loop
+- **Coroutines**: Working with coroutine objects
+
+### 2. Asyncio Execution Patterns
+- **Sequential Async**: Running async functions one after another
+- **Concurrent Execution**: Using `asyncio.gather()` for concurrent execution
+- **Task Creation**: Creating and managing tasks with `asyncio.create_task()`
+- **As Completed**: Processing results as they complete with `asyncio.as_completed()`
+
+### 3. HTTP Requests with Asyncio
+- **aiohttp Library**: Making async HTTP requests
+- **Session Management**: Proper session handling and cleanup
+- **Error Handling**: Exception handling in async code
+- **Performance Benefits**: Comparing async vs sync HTTP requests
+
+### 4. Practical Real-World Examples
+- **Async API Calls**: Making multiple API requests concurrently
+- **Async File Operations**: Reading/writing files asynchronously
+- **Database Operations**: Async database queries
+- **Web Scraping**: Concurrent web scraping with async requests
+
+## Key Examples
+
+### Basic Asyncio
+```python
+import asyncio
+import time
+
+async def async_worker(name, delay):
+    print(f"Worker {name}: starting")
+    await asyncio.sleep(delay)  # Non-blocking sleep
+    print(f"Worker {name}: finishing")
+    return f"Result from {name}"
+
+# Running single async function
+async def main():
+    result = await async_worker("A", 2)
+    print(result)
+
+# Run the async function
+asyncio.run(main())
+```
+
+### Concurrent Asyncio Execution
+```python
+import asyncio
+import aiohttp
+
+async def fetch_url(session, url):
+    async with session.get(url) as response:
+        return await response.text()
+
+async def main():
+    urls = ["http://example.com", "http://httpbin.org/delay/1"]
+    
+    async with aiohttp.ClientSession() as session:
+        # Method 1: Using gather (all at once)
+        results = await asyncio.gather(*[fetch_url(session, url) for url in urls])
+        
+        # Method 2: Using create_task (more control)
+        tasks = [asyncio.create_task(fetch_url(session, url)) for url in urls]
+        results = await asyncio.gather(*tasks)
+
+asyncio.run(main())
+```
+
+### Performance Comparison Results
+| Approach | Time (10 API calls, 1s each) |
+|----------|-------------------------------|
+| Sequential Sync | ~10 seconds |
+| Sequential Async | ~10 seconds |
+| Concurrent Async | ~1 second |
+| **Speed Up** | **~10x faster!** |
+
+## Threading vs Asyncio Comparison
+
+| Aspect | Threading | Asyncio |
+|--------|-----------|---------|
+| **Best For** | I/O-bound tasks with blocking calls | I/O-bound tasks with async libraries |
+| **Memory Usage** | Higher (each thread ~8MB) | Lower (single thread) |
+| **Debugging** | More complex (race conditions) | Easier (single-threaded) |
+| **Libraries** | Works with any library | Requires async libraries |
+| **Scalability** | Limited by thread count | Handles thousands of operations |
+| **Learning Curve** | Moderate | Steeper (async/await syntax) |
+
+## Project Structure
+
+```
+Thread.ipynb & Asyncio.ipynb
+├── Basic Threading Concepts
+│   ├── Single Thread
+│   ├── Daemon Threads
+│   └── Multiple Threads
+├── Basic Asyncio Concepts
+│   ├── Async Functions
+│   ├── Event Loop
+│   └── Coroutines
+├── ThreadPoolExecutor Examples
+│   ├── Submit Method
+│   ├── Map Method
+│   └── As Completed
+├── Asyncio Execution Patterns
+│   ├── Sequential Async
+│   ├── Concurrent with Gather
+│   ├── Task Management
+│   └── As Completed
+├── Performance Benchmarks
+│   ├── Sequential vs Threaded
+│   ├── Sequential vs Async
+│   ├── Threading vs Asyncio
+│   └── Timing Comparisons
+└── Real-World Examples
+    ├── Image Downloads (Threading)
+    ├── API Calls (Asyncio)
+    ├── File Operations (Both)
+    └── Performance Analysis
+```
+
+## 🛠️ Prerequisites
+
+### Required Packages
+```bash
+pip install requests      # For threading examples
+pip install aiohttp      # For asyncio HTTP requests
+pip install aiofiles     # For async file operations (optional)
+```
+
+### Python Version
+- Python 3.7+ (tested with Python 3.10.13)
+- asyncio is built into Python 3.7+
+
+## Key Learning Outcomes
+
+After working through these notebooks, you'll understand:
+
+1. **Threading vs Asyncio**: When to use each approach
+2. **Async/await syntax**: Modern Python asynchronous programming
+3. **Event loops**: How asyncio manages concurrent operations
+4. **Performance benefits**: Real timing comparisons for both approaches
+5. **Library ecosystem**: Threading works with any library, asyncio needs async libraries
+6. **Resource usage**: Memory and CPU differences between approaches
+7. **Debugging strategies**: Different debugging approaches for each method
+
+## 📊 Performance Highlights
+
+### API Calls Comparison (10 requests, 1s delay each)
+- **Sequential Sync**: Makes requests one by one
+  - 10 requests: ~10 seconds
+- **Threading**: Uses thread pool for concurrent requests
+  - 10 requests: ~1 second
+- **Asyncio**: Single-threaded concurrent execution
+  - 10 requests: ~1 second
+  - **Bonus**: Lower memory usage than threading!
+
+### Memory Usage Comparison
+```
+Sequential:   ~20MB   ████
+Threading:    ~100MB  ████████████████████
+Asyncio:      ~25MB   █████
+```
+
+## Advanced Concepts Covered
+
+### Threading Advanced Topics
+- **Context Managers**: Using `with` statements for resource management
+- **Future Objects**: Understanding asynchronous result handling
+- **Exception Handling**: Proper error handling in concurrent code
+
+### Asyncio Advanced Topics
+- **Event Loop Management**: Custom event loops and policies
+- **Async Context Managers**: Using `async with` statements
+- **Semaphores**: Limiting concurrent operations
+- **Queue Operations**: Producer-consumer patterns with asyncio queues
+- **Exception Groups**: Handling multiple exceptions in concurrent code
+
+## Best Practices Demonstrated
+
+1. **Choose the right tool**:
+   - Use **asyncio** for new projects with I/O-bound tasks
+   - Use **threading** when working with existing sync libraries
+2. **Resource management**: Always use context managers
+3. **Error handling**: Proper exception handling in concurrent code
+4. **Performance measurement**: Quantify improvements with timing
+5. **Memory awareness**: Understand resource usage differences
+
+## When to Use What?
+
+### Use Asyncio When:
+- Building new applications
+- Working with async libraries (aiohttp, asyncpg, etc.)
+- Need to handle thousands of concurrent operations
+- Memory usage is a concern
+- Debugging simplicity is important
+
+### Use Threading When:
+- Working with existing synchronous libraries
+- Need to integrate with legacy code
+- Blocking operations that can't be made async
+- CPU-bound tasks (with ProcessPoolExecutor)
+
+## Notes
+
+- **Asyncio is ideal for I/O-bound tasks** with async library support
+- **Threading works with any library** but uses more memory
+- **Both are ineffective for CPU-bound tasks** due to Python's GIL
+- **Asyncio has a steeper learning curve** but offers better scalability
+- **Always use async libraries** (aiohttp, asyncpg) with asyncio, not sync ones
+- **Context managers are crucial** for both approaches
 
