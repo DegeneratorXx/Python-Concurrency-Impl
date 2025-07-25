@@ -208,10 +208,6 @@ pip install requests      # For threading examples
 # No additional packages needed for asyncio basics
 ```
 
-### Python Version
-- Python 3.7+ (tested with Python 3.10.13)
-- asyncio is built into Python 3.7+
-
 ## Key Learning Outcomes
 
 After working through these examples, you'll understand:
